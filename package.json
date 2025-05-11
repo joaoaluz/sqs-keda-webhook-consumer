@@ -1,0 +1,21 @@
+{
+  "name": "aula-k8s",
+  "version": "1.0.0",
+  "description": "Repositorio para aula de k8s",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ./src/main.ts",
+    "mock": "ts-node ./src/test/sendMessages.ts"
+  },
+  "author": "Joao Luz",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.606.0",
+    "@aws-sdk/credential-providers": "^3.606.0",
+    "axios": "^1.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9"
+  }
+}

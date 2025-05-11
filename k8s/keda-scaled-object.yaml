@@ -1,0 +1,20 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: aws-sqs-queue-scaledobject-sqs-keda-webhook-consumer
+  namespace: sqs-keda-webhook-consumer
+spec:
+  scaleTargetRef:
+    name: deployment-sqs-keda-webhook-consumer
+  minReplicaCount: 0 # Quantidade mínima de pods rodando
+  maxReplicaCount: 20 # Quantidade de máxima que pode escalar
+  pollingInterval: 5  # O intervalo para verificar a quantidade de mensagens
+  cooldownPeriod: 30 # Tempo de espera para down scale
+  triggers:
+  - type: aws-sqs-queue
+    authenticationRef:
+      name: keda-trigger-authenticator-sqs-keda-webhook-consumer
+    metadata:
+      queueURLFromEnv: QueueUrl
+      queueLength: "2"  # O valor de onde deve escalar
+      awsRegion: "us-east-1" 

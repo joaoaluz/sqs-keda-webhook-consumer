@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-sqs-keda-webhook-consumer
+  namespace: sqs-keda-webhook-consumer
+data:
+  QueueUrl: QUEUE_URL
+  webhookUrl: WEBHOOK_URL

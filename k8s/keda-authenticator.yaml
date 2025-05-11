@@ -1,0 +1,13 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: keda-trigger-authenticator-sqs-keda-webhook-consumer
+  namespace: sqs-keda-webhook-consumer
+spec: 
+  secretTargetRef:
+  - parameter: awsAccessKeyID
+    name: secrets-sqs-keda-webhook-consumer
+    key: AWS_ACCESS_KEY_ID
+  - parameter: awsSecretAccessKey
+    name: secrets-sqs-keda-webhook-consumer
+    key: AWS_SECRET_ACCESS_KEY

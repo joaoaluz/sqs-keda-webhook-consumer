@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-sqs-keda-webhook-consumer
+  namespace: sqs-keda-webhook-consumer
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: deployment-sqs-keda-webhook-consumer
+  template:
+    metadata:
+      labels:
+        app: deployment-sqs-keda-webhook-consumer
+    spec:
+      containers:
+      - name: deployment-sqs-keda-webhook-consumer
+        image: joaoaluz/aula-k8s:v2
+        env:
+          # Envs do configmap
+          - name: QueueUrl
+            valueFrom:
+              configMapKeyRef:
+                name: configmap-sqs-keda-webhook-consumer
+                key: QueueUrl
+          - name: webhookUrl
+            valueFrom:
+              configMapKeyRef:
+                name: configmap-sqs-keda-webhook-consumer
+                key: webhookUrl
+          # fim
+          # Envs do secret
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: secrets-sqs-keda-webhook-consumer
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secrets-sqs-keda-webhook-consumer
+                key: AWS_SECRET_ACCESS_KEY
+          # fim       
+        # Limites de uso de recursos por replica/pod
+        resources:
+          request:
+            memory: "100Mi"
+            cpu: "100m" 
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        # Necessário abrir a porta 53 para se comunicar com aws sdk
+        ports:
+        - containerPort: 53
+          protocol: TCP
+        - containerPort: 53
+          protocol: UDP
